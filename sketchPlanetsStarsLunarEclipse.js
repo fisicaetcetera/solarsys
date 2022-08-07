@@ -107,12 +107,12 @@ let rpc;
   let Xhal1986, Yhal1986, Zhal1986;//shrinked
   let xhal1986, yhal1986, zhal1986;//real
   let deltateta = 0.78;
-  let shuttle;
+  //let shuttle;
   let posxshut, posyshut, poszshut;
 
 //+++++++
 function preload() {
-  shuttle = loadModel('shuttle.obj')
+  //shuttle = loadModel('shuttle.obj')
   myfont = loadFont('Catallina.otf');
   sunjpg = loadImage('sun.jpg');
   earthjpg = loadImage('earthcloud.jpg');
@@ -646,9 +646,9 @@ function setup() {
     //rotateX(-PI/2);
     //rotateY(frameCount/2000);
     //rotateZ(frameCount/200);
-    normalMaterial();
-    scale(1);
-    model(shuttle);
+    //normalMaterial();
+    //scale(1);
+    //model(shuttle);
     pop();
     //
     // Stereo-A
