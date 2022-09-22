@@ -619,9 +619,9 @@ function setup() {
     sphere(raioNeptune);
      rotateZ(1.0);
     fill('gray'),
-    torus(tout,tint);
+    torus(2.1*raioNeptune,2*raioNeptune);
     fill('gray');
-    torus(2.3*tout, 2.3*tint);
+    torus(2.5*raioNeptune, 2.4*raioNeptune);
 
     pop();
     //
