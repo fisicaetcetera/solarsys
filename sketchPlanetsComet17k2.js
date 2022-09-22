@@ -617,6 +617,12 @@ function setup() {
     translate(posxNep, posyNep, poszNep);
     rotateX(PI / 2);
     sphere(raioNeptune);
+     rotateZ(1.0);
+    fill('gray'),
+    torus(tout,tint);
+    fill('white');
+    torus(1.3*tout, 1.3*tint);
+
     pop();
     //
 
