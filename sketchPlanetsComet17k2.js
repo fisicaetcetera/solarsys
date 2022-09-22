@@ -620,8 +620,8 @@ function setup() {
      rotateZ(1.0);
     fill('gray'),
     torus(tout,tint);
-    fill('white');
-    torus(1.3*tout, 1.3*tint);
+    fill('gray');
+    torus(2.3*tout, 2.3*tint);
 
     pop();
     //
