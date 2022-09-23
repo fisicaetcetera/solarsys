@@ -616,13 +616,12 @@ function setup() {
     texture(neptunejpg);
     translate(posxNep, posyNep, poszNep);
     rotateX(PI / 2);
-    sphere(raioNeptune);
-     rotateZ(1.0);
+    sphere(raioTerra);
+    rotateZ(1.0);
     fill('gray'),
-    torus(2.01*raioNeptune,2*raioNeptune);
+    torus(tout,tint);
     fill('white');
-    torus(2.05*raioNeptune, 2.04*raioNeptune);
-
+    torus(1.3*tout, 1.3*tint);
     pop();
     //
 
