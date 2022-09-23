@@ -621,7 +621,7 @@ function setup() {
     fill('gray'),
     torus(tout,tint);
     fill('white');
-    torus(1.3*tout, 1.3*tint);
+    torus(1.2*tout, 1.3*tint);
     pop();
     //
 
