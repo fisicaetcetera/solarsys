@@ -620,7 +620,7 @@ function setup() {
      rotateZ(1.0);
     fill('gray'),
     torus(2.1*raioNeptune,2*raioNeptune);
-    fill('gray');
+    fill('white');
     torus(2.5*raioNeptune, 2.4*raioNeptune);
 
     pop();
