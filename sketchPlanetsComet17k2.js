@@ -584,8 +584,8 @@ function setup() {
     //sphere(raioSaturn);
     sphere(raioTerra);
     rotateZ(1.0);
-    fill('gray'),
-    torus(tout,tint);
+    //fill('gray'),
+    //torus(tout,tint);
     fill('white');
     torus(1.3*tout, 1.3*tint);
 
