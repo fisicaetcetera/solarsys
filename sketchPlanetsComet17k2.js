@@ -214,6 +214,11 @@ function setup() {
    posy=0;
    posz=0;
    }
+            //clear canvas
+   if(escolha == 'clear'){
+     clear();
+   }
+
 //constelações
    push();
    translate(0,0,0);
@@ -720,6 +725,10 @@ function keyTyped() {
   else if (key === '-') {
     escolha = 'inverte';
 }
+    else if (key === 'c') {
+    escolha = 'clear';
+}
+
 }  // do keyTyped
 //
 //
