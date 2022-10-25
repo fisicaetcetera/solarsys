@@ -495,20 +495,20 @@ function setup() {
       stroke('yellow');
       noFill();
       strokeWeight(1);
-      line(posxstereo, posystereo, posxSat, posySat);
+      line(posxe, posye, 0,0);
       stroke('green');
-      line(posxstereo, posystereo, posxj, posyj);
+      //line(posxstereo, posystereo, posxj, posyj);
       stroke('red');
       noFill();
       strokeWeight(1);
       stroke('red');
-      line(posxstereo, posystereo, posxms, posyms);
+      //line(posxstereo, posystereo, posxms, posyms);
       stroke('green');
       noFill();
       strokeWeight(1);
-      line(posxstereo, posystereo, posxv, posyv);
+      //line(posxstereo, posystereo, posxv, posyv);
       stroke(111);
-      line(posxstereo, posystereo, posxmer, posymer);
+      //line(posxstereo, posystereo, posxmer, posymer);
       noStroke();
 
     }
