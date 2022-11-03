@@ -497,7 +497,7 @@ function setup() {
       strokeWeight(1);
       line(posxe, posye, 0,0);
       stroke('blue');
-      line(posxe, posye, 0, posxmoon,posymoon,poszmoon);
+      line(posxe, posye, 0, posxe+posxmoon,posye+posymoon,poszmoon);
       //line(posxstereo, posystereo, posxj, posyj);
       stroke('red');
       noFill();
