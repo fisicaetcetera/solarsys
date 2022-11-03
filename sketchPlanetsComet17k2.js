@@ -492,11 +492,12 @@ function setup() {
       //
       //Drawsline to planets from Stereo-A
       //
-      stroke('yellow');
+      stroke('grey');
       noFill();
       strokeWeight(1);
       line(posxe, posye, 0,0);
-      stroke('green');
+      stroke('blue');
+      line(posxe, posye, 0, posxmoon,posymoon,poszmoon);
       //line(posxstereo, posystereo, posxj, posyj);
       stroke('red');
       noFill();
