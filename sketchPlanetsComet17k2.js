@@ -199,7 +199,7 @@ function setup() {
 
   function draw(){
   
-  //background(0);
+  background(0);
   //rotateX(-PI/2);
   //console.log(escolha);
   frameRate(frSlider.value());
