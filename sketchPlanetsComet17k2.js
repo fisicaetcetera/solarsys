@@ -220,15 +220,15 @@ function setup() {
    }
 
 //constelações
-   push();
-   translate(0,0,0);
+  //push();
+   //translate(0,0,0);
    //texture(sky);
-   fill(0);
-   strokeWeight(2);
-   stroke(100, 100, 240);
-   rotateX(PI/2+0.41);
-   sphere(5100,24,18);
-   pop();
+   //fill(0);
+   //strokeWeight(2);
+   //stroke(100, 100, 240);
+   //rotateX(PI/2+0.41);
+   //sphere(5100,24,18);
+   //pop();
    //push();
    //Draw stars and Halley from table 
    for (let rr = 0; rr<table.getRowCount(); rr++){
