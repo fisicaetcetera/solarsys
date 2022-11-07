@@ -263,7 +263,7 @@ function setup() {
      }
      else{
      fill('white');
-     sphere(radiusStar);
+     sphere(radiusStar/5);//cuidado!
      }
      pop();
      }
