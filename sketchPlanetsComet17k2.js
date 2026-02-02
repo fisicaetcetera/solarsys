@@ -668,16 +668,6 @@ function setup() {
     fill('yellow');
     sphere(2);
     pop();
-  //} // 
-  else{
-    //jupdat.close();
-    //Satdat.close();
-    if(distancia<1500){
-    rotateX(PI/2);
-     textFont(myfont, 40 );
-  text('Programado em p5.js/WEBGL por Enivaldo Bonelli',20,0,0);
-    }
-  }   
 } //draw()
 //
 //************** FUNCTIONS ****************
