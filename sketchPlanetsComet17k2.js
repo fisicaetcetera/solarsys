@@ -268,7 +268,7 @@ function setup() {
      pop();
      }
    ii += deltaii;
-   if (ii < ifim) { //till some future time
+   if (ii < ifim) { //till some future time - loop ii, como fazer para deltaz negativo?
 
     print = false;
     d = d0 + ii;
@@ -409,23 +409,23 @@ function setup() {
    let posy = 0;
    let posz = 0;
    //////
-   if (mouseIsPressed === true) {
-    if (mouseButton === LEFT) {
-      tetaz = tetaz + deltateta;
-      if(tetaz>PI || tetaz<0){
-         deltateta = -deltateta;
-         tetaz += deltateta;
-      }
-    }
+   //if (mouseIsPressed === true) {
+   // if (mouseButton === LEFT) {
+   //   tetaz = tetaz + deltateta;
+   //   if(tetaz>PI || tetaz<0){
+   //      deltateta = -deltateta;
+   //      tetaz += deltateta;
+   //   }
+  //  }
     //if (mouseButton === RIGHT) {
     //  tetaz = tetaz + 0.028;
     //  return false;
     // did not work in Google
     //}
-    if (mouseButton === CENTER) {
-      tetaz = 0;
-   }
-   }
+    //if (mouseButton === CENTER) {
+     // tetaz = 0;
+   //}
+   }   // do loop ii, til ifim ====================
    /////
    if(escolha == 'Sol'){
    posx=0;
