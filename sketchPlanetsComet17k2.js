@@ -668,7 +668,7 @@ function setup() {
     fill('yellow');
     sphere(2);
     pop();
-  } //if ii < ifim 
+  //} // 
   else{
     //jupdat.close();
     //Satdat.close();
@@ -676,13 +676,12 @@ function setup() {
     rotateX(PI/2);
      textFont(myfont, 40 );
   text('Programado em p5.js/WEBGL por Enivaldo Bonelli',20,0,0);
-  }
-  }
-      
+    }
+  }   
 } //draw()
 //
 //************** FUNCTIONS ****************
-
+//
 function mouseDragged() {
   tetaz = tetaz + 0.39;
   }
