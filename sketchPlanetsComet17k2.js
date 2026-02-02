@@ -1,10 +1,10 @@
-// camera looking into the night side
+// camera looking into the day side
 //===========================
 //   Planetary formulas from Paul Schlyter's page at http://astro.if.ufrgs.br/trigesf/position.html.
 //this one: all planets: sketchPlanetsAll.js
 // tamanhos dos planetas alterados.  Distancia dos planetas distantes alteradas...
 // TIME
-//This one: including one comet:sketchPlanetsMyComet.js
+//This one: including various comets:sketchPlanetsComet17k2.js
 let miliseconds = 24*3600000;  //miliseconds in a day
 let timestamp ;  // miliseconds since 
 let stampj2013; ///miliseconds since reference in 2013
@@ -105,6 +105,7 @@ let rpc;
   let Xcom, Ycom, Zcom; //comet 21f1 coordinates w/r to eclitic
   let Xcomk2, Ycomk2, Zcomk2; //comet 17k2 coordinates w/r to eclitic
   let xcomk2, ycomk2, zcomk2=0; //comet 17k2 coordinates w/r to orbit
+  let XMACHHOLZcom, YMACHHOLZcom, ZMACHHOLZcom;
   let RRk2=0; //distance from k2 to sun
   let Xhal11, Yhal11, Zhal11;//comet halley 11 BC
   let Xhal1986, Yhal1986, Zhal1986;//shrinked
@@ -125,8 +126,8 @@ function preload() {
   uranusjpg = loadImage('uranus.jpg');
   neptunejpg = loadImage('neptune.jpg');
   plutojpg = loadImage('pluto.jpg');
-  //sky = loadImage('constellations-g.jpg');
-  //sky = loadImage('starmap_Mirror2_4k.jpg');
+  //sky = loadImage('stars_milky_way_small.jpg');
+  sky = loadImage('starmap_Mirror2_4k.jpg');
   //constelations
   table = loadTable('constelationDatamag.csv', 'csv', 'header'); 
   //camera:
@@ -199,7 +200,7 @@ function setup() {
 
   function draw(){
   
-  background(0);
+  //background(0);
   //rotateX(-PI/2);
   //console.log(escolha);
   frameRate(frSlider.value());
@@ -214,21 +215,16 @@ function setup() {
    posy=0;
    posz=0;
    }
-            //clear canvas
-   if(escolha == 'clear'){
-     clear();
-   }
-
 //constelações
-  //push();
-   //translate(0,0,0);
-   //texture(sky);
+   push();
+   translate(0,0,0);
+   texture(sky);
    //fill(0);
    //strokeWeight(2);
    //stroke(100, 100, 240);
-   //rotateX(PI/2+0.41);
-   //sphere(5100,24,18);
-   //pop();
+   rotateX(PI/2+0.41);
+   sphere(5100,24,18);
+   pop();
    //push();
    //Draw stars and Halley from table 
    for (let rr = 0; rr<table.getRowCount(); rr++){
@@ -263,12 +259,12 @@ function setup() {
      }
      else{
      fill('white');
-     sphere(radiusStar);//cuidado!
+     sphere(radiusStar);
      }
      pop();
      }
    ii += deltaii;
-   if (ii < ifim) { //till some future time - loop ii, como fazer para deltaz negativo?
+   if (ii < ifim) { //till some future time
 
     print = false;
     d = d0 + ii;
@@ -333,6 +329,7 @@ function setup() {
     comet21f1(); //xcom, ycom
     comet2017K2();//xcomk2, ycomk2, zcomk2
     comethal1986();
+    MACHHOLZcomet();// 
 
     //origem or position of the sun
     let position; //now, launch, landing
@@ -355,11 +352,15 @@ function setup() {
     xhal1986 = ox + 140 * Xhal1986;//140 so aphelion is inside picture
     yhal1986 = oy - 140 * Yhal1986;
     zhal1986 = oz  + 140 * Zhal1986;
+    xcomg = (ox + factor * XMACHHOLZcom)/10;
+    ycomg = (oy - factor * YMACHHOLZcom)/10;
+    zcomg = (oz  + factor * ZMACHHOLZcom)/10;
     //watch out: moon's distances are in earth radii
     posxmoon = xeclip*raioTerra/20;
     posymoon = -raioTerra*yeclip/20;
     poszmoon = raioTerra*zeclip/20;
     //console.log('xyz'+xeclip,yeclip,zeclip);
+    console.log('cometas: ', xcomk2, xcomg,ycomk2,ycomg);
 
     posxj = ox + factor * Xj; //x coordinate of jupiter
     posyj = oy - factor * Yj; //y coordinate of jupiter
@@ -383,8 +384,8 @@ function setup() {
     posyPlu = oy - factor/3 * YPlu; //y coordinate of Pluto
     poszPlu = oz - factor/3 * ZPlu; //z coordinate of Pluto
     //
-    posxstereo = posxe * 0.935 - posye * 0.354;
-    posystereo = posxe * 0.354 + posye * 0.935;
+    posxstereo = posxe * 0.996 - posye * 0.087;
+    posystereo = posxe * 0.087 + posye * 0.996;
 
    zcam = zcamSlider.value();
    //console.log('zcam = ' + zcam);
@@ -409,23 +410,23 @@ function setup() {
    let posy = 0;
    let posz = 0;
    //////
-   //if (mouseIsPressed === true) {
-   // if (mouseButton === LEFT) {
-   //   tetaz = tetaz + deltateta;
-   //   if(tetaz>PI || tetaz<0){
-   //      deltateta = -deltateta;
-   //      tetaz += deltateta;
-   //   }
-  //  }
+   if (mouseIsPressed === true) {
+    if (mouseButton === LEFT) {
+      tetaz = tetaz + deltateta;
+      if(tetaz>PI || tetaz<0){
+         deltateta = -deltateta;
+         tetaz += deltateta;
+      }
+    }
     //if (mouseButton === RIGHT) {
     //  tetaz = tetaz + 0.028;
     //  return false;
     // did not work in Google
     //}
-    //if (mouseButton === CENTER) {
-     // tetaz = 0;
-   //}
-   }   // do loop ii, til ifim ====================
+    if (mouseButton === CENTER) {
+      tetaz = 0;
+   }
+   }
    /////
    if(escolha == 'Sol'){
    posx=0;
@@ -492,24 +493,23 @@ function setup() {
       //
       //Drawsline to planets from Stereo-A
       //
-      stroke('grey');
+      stroke('yellow');
       noFill();
       strokeWeight(1);
-      line(posxe, posye, 0,0);
-      stroke('blue');
-      line(posxe, posye, 0, posxe+posxmoon,posye+posymoon,poszmoon);
-      //line(posxstereo, posystereo, posxj, posyj);
+      line(posxstereo, posystereo, posxSat, posySat);
+      stroke('green');
+      line(posxstereo, posystereo, posxj, posyj);
       stroke('red');
       noFill();
       strokeWeight(1);
       stroke('red');
-      //line(posxstereo, posystereo, posxms, posyms);
+      line(posxstereo, posystereo, posxms, posyms);
       stroke('green');
       noFill();
       strokeWeight(1);
-      //line(posxstereo, posystereo, posxv, posyv);
+      line(posxstereo, posystereo, posxv, posyv);
       stroke(111);
-      //line(posxstereo, posystereo, posxmer, posymer);
+      line(posxstereo, posystereo, posxmer, posymer);
       noStroke();
 
     }
@@ -568,6 +568,24 @@ function setup() {
    //  cone(10, 250);
    //  pop();
    
+       //
+    //draw MACHHOLZ comet
+     push();
+     
+     //translate(xcomg,ycomg,zcomg);
+     console.log('MACHHOLZ plot', xcomg,ycomg,zcomg);
+     translate(xcomg,ycomg,0);
+     rotateZ(PI/2);
+     if(elevEclit > 0){
+       stroke('green');
+     } else {
+       stroke('green');
+     }
+     cone(2, 50);
+     pop();
+     
+     
+   
     //draws Jupiter
     push();
     texture(jupiterjpg);
@@ -590,8 +608,8 @@ function setup() {
     //sphere(raioSaturn);
     sphere(raioTerra);
     rotateZ(1.0);
-    //fill('gray'),
-    //torus(tout,tint);
+    fill('gray'),
+    torus(tout,tint);
     fill('white');
     torus(1.3*tout, 1.3*tint);
 
@@ -668,10 +686,21 @@ function setup() {
     fill('yellow');
     sphere(2);
     pop();
+  } //if ii < ifim 
+  else{
+    //jupdat.close();
+    //Satdat.close();
+    if(distancia<1500){
+    rotateX(PI/2);
+     textFont(myfont, 40 );
+  text('Programado em p5.js/WEBGL por Enivaldo Bonelli',20,0,0);
+  }
+  }
+      
 } //draw()
 //
 //************** FUNCTIONS ****************
-//
+
 function mouseDragged() {
   tetaz = tetaz + 0.39;
   }
@@ -715,10 +744,6 @@ function keyTyped() {
   else if (key === '-') {
     escolha = 'inverte';
 }
-    else if (key === 'c') {
-    escolha = 'clear';
-}
-
 }  // do keyTyped
 //
 //
@@ -1036,31 +1061,6 @@ function Mars() {
   ////console.log('Mars: ', RA_hours, Dec_degrees, distance);
   //  
 } //end function Mars()
-//0000
-// 
-
-// 
-function numeroDeDiasOutra() {
-
-  now = (new Date()).getTime();
-  let stampj2001 = (new Date('1999-12-31T00:00:00Z')).getTime();
-  //time for calculation date:
-  //
-  let epoca = (now - stampj2001) / 1000;
-  //console.log('epoca = ' + epoca);
-  let numdias = epoca / 86400;
-  //console.log('numero de dias entre 2000-01-01 e agora = ' + numdias); //incluir frações do dia, depois: dayfrac = hours+ min/60)/24
-  //calculatin UT time, decimal hours
-  now = new Date();
-  minutes = now.getUTCMinutes() / 60;
-  seconds = now.getUTCSeconds() / 360;
-  hours = now.getUTCHours();
-  UT = hours + minutes + seconds;
-  //console.log('522-UT', UT);
-  return numdias;
-} //end function numeroDeDiasOutra
-//
-//
 //
 function numeroDeDias() {
 
@@ -1069,7 +1069,7 @@ function numeroDeDias() {
   //por exemplo, já usei 1603 e funcionou.  Kepler.
   now = new Date();
   timestamp = now.getTime(); //agora
-  //console.log('timeStamp = ', +timestamp)
+  console.log('timeStamp = ', + timestamp)
   //time for 2013 elements
   //
   stampj2013 = (new Date('2013-08-16T12:00:00Z')).getTime();
@@ -1082,7 +1082,7 @@ function numeroDeDias() {
   //console.log('epoca = ' + epoca);
   let numdias = epoca / 86400;
   diasMoon = epocaMoon / 86400;  //Declarado no main
-  //console.log('diasMoon, numdias = ' + diasMoon +' ' + numdias);
+  console.log('diasMoon, numdias = ' + diasMoon +' ' + numdias);
  
   return numdias;
 } //end function numeroDeDias
@@ -2155,6 +2155,60 @@ function Moon() {
       diaEHora += minutostxt;
       diaEHora += segundostxt;
   } //diaEhora()
+  
+  
+function MACHHOLZcomet() {
+  //
+  // MACHHOLZcomet c/2022 E3 ZTF elements
+  //
+  //Used expressions for near parabolic orbits
+  //from Paul Schlyter's work
+
+  e = 0.73;  //
+  q = 0.81; //au
+  //M = 143.32//mean anomaly degrees
+  tp = 7920; //perhelion j2000 date
+  i = 13.96 * rads; //degrees
+  w1 = 153.60 * rads; //degrees- arg of periapsis
+  o = 241.79 * rads; //degrees - longitude of ascending node, N, omega
+  //// Constants
+  k = 0.01720209895;  //gravitational constant
+  ////Calculated quantities
+  //d-tp = time till the perihelion
+  qqq = q*q*q;
+  a = 0.75*(diasMoon-tp) * k * sqrt((1+e)/qqq);
+  b = sqrt(1+a*a);
+  W = Math.cbrt(b+a) -Math.cbrt(b-a);
+  WW = W*W;
+  WWWW = WW*WW;
+  f = (1-e)/(1+e);
+  a1 = (2/3) +(2/5)*WW;
+  a2 = 7/5 + (33/35) * WW + (37/175) * WWWW;
+  a3 = WW / (1+WW);
+  C = WW/(1+WW);
+  g = f*C*C;
+  w = W * (1 + f * C * (a1 + a2*g +a3*g*g));
+  v= 2 * atan(w);//true anomaly
+  r = q*(1+w*w)/(1+w*w*f);
+  //components in the plane of orbit
+  xcom = r * cos(v);
+  ycom = r *sin(v);
+  console.log('diasMoon, tp=',d, tp);
+  console.log(xcom, ycom,r,v);
+  //components in space viewed from sun
+  XMACHHOLZcom = r * [cos(o) * cos(v + w1) - sin(o) * sin(v + w1) *
+    cos(i)
+  ]
+  YMACHHOLZcom = r * [sin(o) * cos(v+w1) + cos(o) * sin(v + w1) *
+    cos(i)
+  ]
+  ZMACHHOLZcom = r * [sin(v + w1) * sin(i)]
+  RR = sqrt(Ycom*Ycom + Xcom*Xcom +Zcom*Zcom);
+  elevEclit = asin(Zcom/RR) * degs;
+  //console.log('Range = ', RR, 'elevEclit = ', elevEclit);
+  console.log('MACHHOLZ  ', XMACHHOLZcom,YMACHHOLZcom,ZMACHHOLZcom);
+  } //end of function MACHHOLZcomet c/2022 E3 ZTF
+  //
   
 // ***** comet c/2017 K2
 //
