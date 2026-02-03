@@ -2211,8 +2211,8 @@ function comethal1986() {
 
   e = 0.96714291;  //
   q = 0.5859781115; //au
-  //tp = 2446497.39531; //perhelion julian date 
-  tp= 22461075.146400; //wrong for test only
+  //tp = 2446467.39531; //perhelion julian date 
+  tp= 2461044.146400; //wrong for test only
   i = 107 * rads; //degrees
   w1 = 111.3325 * rads; //degrees- arg of periapsis
   o = 58.4201 * rads; //degrees - longitude of ascending node, N, omega
