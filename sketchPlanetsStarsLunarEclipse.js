@@ -540,7 +540,7 @@ function setup() {
      push();
      translate(Xhal1986,-Yhal1986,Zhal1986);
      fill('white');
-     cone(5, 125);
+     cone(1, 11);
      pop();
    
     //draws Jupiter
