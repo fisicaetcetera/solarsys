@@ -537,11 +537,11 @@ function setup() {
    
        //
     //draw comethal1984
-     //push();
-     //fill('red');
-     //translate(xhal1986,-yhal1986,zhal1986);
-     //cone(10, 250);
-     //pop();
+     push();
+     fill('red');
+     translate(xhal1986,-yhal1986,zhal1986);
+     cone(10, 250);
+     pop();
    
     //draws Jupiter
     push();
