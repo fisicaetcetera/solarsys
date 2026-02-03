@@ -335,7 +335,7 @@ function setup() {
     xcom = ox + factor * Xcom;
     ycom = oy - factor * Ycom;
     zcom = oz  + factor * Zcom;
-    xhal1986 = ox + fXhal1986;//140 so aphelion is inside picture
+    xhal1986 = ox + Xhal1986;//140 so aphelion is inside picture
     yhal1986 = oy - Yhal1986;
     zhal1986 = oz  +  Zhal1986;
     //watch out: moon's distances are in earth radii
