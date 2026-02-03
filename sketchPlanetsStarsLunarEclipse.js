@@ -538,7 +538,7 @@ function setup() {
        //
     //draw comethal1984
      push();
-     translate(xhal1986,-yhal1986,zhal1986);
+     translate(Xhal1986,-Yhal1986,Zhal1986);
      fill('white');
      cone(5, 125);
      pop();
