@@ -328,16 +328,16 @@ function setup() {
     posxms = ox + factor * Xms; //x coordinate of mars
     posyms = oy - factor * Yms; //y coordinate of mars
     posxmer = ox + factor * Xmer; //x coordinate of mercury
-    posymer = oy - factor * Ymer; //y coordinate of mars
-    poszmer = oz + factor * Zmer; //z coordinate of mars    
+    posymer = oy - factor * Ymer; //y coordinate of mercury
+    poszmer = oz + factor * Zmer; //z coordinate of mercury
     posxe = ox + factor * Xe; // same, for earth
     posye = oy - factor * Ye;
     xcom = ox + factor * Xcom;
     ycom = oy - factor * Ycom;
     zcom = oz  + factor * Zcom;
-    xhal1986 = ox + factor * Xhal1986;//140 so aphelion is inside picture
-    yhal1986 = oy - factor * Yhal1986;
-    zhal1986 = oz  + factor * Zhal1986;
+    xhal1986 = ox + fXhal1986;//140 so aphelion is inside picture
+    yhal1986 = oy - Yhal1986;
+    zhal1986 = oz  +  Zhal1986;
     //watch out: moon's distances are in earth radii
     posxmoon = xeclip*raioTerra/20;
     posymoon = -raioTerra*yeclip/20;
