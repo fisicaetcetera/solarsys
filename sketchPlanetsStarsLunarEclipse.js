@@ -335,9 +335,9 @@ function setup() {
     xcom = ox + factor * Xcom;
     ycom = oy - factor * Ycom;
     zcom = oz  + factor * Zcom;
-    xhal1986 = ox + 140 * Xhal1986;//140 so aphelion is inside picture
-    yhal1986 = oy - 140 * Yhal1986;
-    zhal1986 = oz  + 140 * Zhal1986;
+    xhal1986 = ox + factor * Xhal1986;//140 so aphelion is inside picture
+    yhal1986 = oy - factor * Yhal1986;
+    zhal1986 = oz  + factor * Zhal1986;
     //watch out: moon's distances are in earth radii
     posxmoon = xeclip*raioTerra/20;
     posymoon = -raioTerra*yeclip/20;
@@ -539,7 +539,7 @@ function setup() {
      push();
      translate(xhal1986,-yhal1986,zhal1986);
      fill('white');
-     cone(1, 11);
+     cone(1, 55);
      pop();
    
     //draws Jupiter
