@@ -540,7 +540,7 @@ function setup() {
      push();
      fill('red');
      translate(xhal1986,-yhal1986,zhal1986);
-     cone(10, 250);
+     cone(100, 250);
      pop();
    
     //draws Jupiter
@@ -2248,7 +2248,7 @@ function comethal1986() {
     cos(i)
   ];
   Zhal1986 = r * [sin(v + w1) * sin(i)];
-  //console.log('Xhall,etc  ', Xhal1986, Yhal1986, Zhal1986);
+  console.log('Xhall,etc  ', Xhal1986, Yhal1986, Zhal1986);
   //RRh = sqrt(Yhal1986*Yhal1986 + Xhal1986*Xhal1986 +Zhal1986*Zhal1986);
   //elevEclithal86 = asin(Zhal1986/RR) * degs;
   RA_radians = atan2(Yhal1986, Xhal1986);
