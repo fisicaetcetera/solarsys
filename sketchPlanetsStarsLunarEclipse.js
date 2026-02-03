@@ -103,7 +103,7 @@ let rpc;
   let escolha = 'Sol';
   let xcom, ycom, zcom=0; //comet 21f1 coordinates
   let Xcom, Ycom, Zcom; //comet 21f1 coordinates w/r to eclitic
-  let Xhal11, Yhal11, Zhal11;//comet halley 11 BC
+  //let Xhal11, Yhal11, Zhal11;//comet halley 11 BC
   let Xhal1986, Yhal1986, Zhal1986;//shrinked
   let xhal1986, yhal1986, zhal1986;//real
   let deltateta = 0.78;
@@ -2211,7 +2211,7 @@ function comethal1986() {
 
   e = 0.96714291;  //
   q = 0.5859781115; //au
-  tp = 2446467.39531; //perhelion julian date
+  tp = 2461075.078287; //perhelion julian date
   i = 107 * rads; //degrees
   w1 = 111.3325 * rads; //degrees- arg of periapsis
   o = 58.4201 * rads; //degrees - longitude of ascending node, N, omega
