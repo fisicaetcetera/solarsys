@@ -539,7 +539,8 @@ function setup() {
      push();
      translate(xhal1986,-yhal1986,zhal1986);
      fill('white');
-     cone(1, 15);
+     cone(1, 150);
+     stroke(0,111,255);
      pop();
    
     //draws Jupiter
@@ -2210,8 +2211,7 @@ function comethal1986() {
 
   e = 0.96714291;  //
   q = 0.5859781115; //au
-  //tp = 2446467.39531; //perhelion julian date 
-  tp = 2461175.146400; //wrong for test only
+  tp = 2446467.39531; //perhelion julian date 
   i = 107 * rads; //degrees
   w1 = 111.3325 * rads; //degrees- arg of periapsis
   o = 58.4201 * rads; //degrees - longitude of ascending node, N, omega
