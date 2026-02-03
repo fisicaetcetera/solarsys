@@ -1,5 +1,5 @@
 //Previous version works with a cam with fixed rotation.
-//Recent previous version: to make the cam controlable by user.
+//Recent previous version: to make the cam controlable by user.cone(5
 //This version: improved camera control
 //this version includes 2021f5-lemmon and Halley1986
 //===========================
@@ -540,7 +540,7 @@ function setup() {
      push();
      translate(Xhal1986,-Yhal1986,Zhal1986);
      fill('red');
-     cone(50, 250);
+     cone(5, 25);
      pop();
    
     //draws Jupiter
