@@ -257,7 +257,6 @@ function setup() {
      rotateY(PI);
      rotateX(PI);
      stroke(0,111,255);
-     //cone(5, 115);
      }
      else if(starName == "alfaTauri"){
        fill('red');
@@ -538,7 +537,7 @@ function setup() {
        //
     //draw comethal1984
      push();
-     translate(Xhal1986,-Yhal1986,Zhal1986);
+     translate(xhal1986,-yhal1986,zhal1986);
      fill('white');
      cone(1, 11);
      pop();
