@@ -1,5 +1,5 @@
 //Previous version works with a cam with fixed rotation.
-//Recent previous version: to make the cam controlable by user.cone(5
+//Recent previous version: to make the cam controlable by user.
 //This version: improved camera control
 //this version includes 2021f5-lemmon and Halley1986
 //===========================
@@ -257,7 +257,7 @@ function setup() {
      rotateY(PI);
      rotateX(PI);
      stroke(0,111,255);
-     cone(5, 115);
+     //cone(5, 115);
      }
      else if(starName == "alfaTauri"){
        fill('red');
@@ -538,7 +538,7 @@ function setup() {
        //
     //draw comethal1984
      push();
-     translate(Xhal1986,-Yhal1986,Zhal1986);
+     translate(xhal1986,-yhal1986,zhal1986);
      fill('white');
      cone(5, 125);
      pop();
