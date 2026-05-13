@@ -6,7 +6,7 @@
 //   Planetary formulas from Paul Schlyter's page at http://astro.if.ufrgs.br/trigesf/position.html.
 //this one: all planets: sketchPlanetsAll.js
 // tamanhos dos planetas alterados.  Distancia dos planetas distantes alteradas...
-// TIME
+// TIMEui
 //This one: including one comet:sketchPlanetsMyComet.js
 let miliseconds = 24*3600000;  //miliseconds in a day
 let timestamp ;  // miliseconds since 
@@ -224,7 +224,7 @@ function setup() {
    fill(0);
    strokeWeight(4);
    stroke(100, 100, 240);
-   rotateX(PI/2+0.41);  //gira a esfera celeste
+   rotateX(0.41);  //gira a esfera celeste
    sphere(5100,24,18);
    pop();
    //push();
