@@ -224,7 +224,7 @@ function setup() {
    fill(0);
    strokeWeight(4);
    stroke(100, 100, 240);
-   //rotateX(PI/2+0.41);aqui
+   rotateX(PI/2+0.41);  //gira a esfera celeste
    sphere(5100,24,18);
    pop();
    //push();
@@ -250,7 +250,7 @@ function setup() {
      //
      push();
      //translate(0,0,0)
-     rotateX(0.41);
+     rotateX(PI/2+0.41); //aqui
      translate(xStar,-yStar, zStar);
      if(starName == "halley"){
      //fill('blue');
