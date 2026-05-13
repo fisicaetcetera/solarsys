@@ -251,7 +251,8 @@ function setup() {
      push();
      //translate(0,0,0)
      rotateX(0.41); 
-     translate(xStar,-yStar, -zStar);
+     rotateY(PI/2);
+     translate(xStar,-yStar, zStar);
      if(starName == "halley"){
      //fill('blue');
      rotateY(PI);
