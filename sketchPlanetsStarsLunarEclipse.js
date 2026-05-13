@@ -224,7 +224,7 @@ function setup() {
    fill(0);
    strokeWeight(4);
    stroke(100, 100, 240);
-   rotateX(PI/2+0.41);
+   //rotateX(PI/2+0.41);aqui
    sphere(5100,24,18);
    pop();
    //push();
