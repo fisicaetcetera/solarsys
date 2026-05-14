@@ -224,7 +224,7 @@ function setup() {
    fill(0);
    strokeWeight(4);
    stroke(100, 100, 240);
-   rotateX(0.41);  //gira a esfera celeste
+   rotateX(PI/2 + 0.41);  //gira a esfera celeste
    sphere(5100,24,18);
    pop();
    //push();
