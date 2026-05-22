@@ -127,7 +127,7 @@ function preload() {
   neptunejpg = loadImage('neptune.jpg');
   plutojpg = loadImage('pluto.jpg');
   //sky = loadImage('stars_milky_way_small.jpg');
-  sky = loadImage('starmap_Mirror2_4k.jpg');
+  //sky = loadImage('starmap_Mirror2_4k.jpg');
   //constelations
   table = loadTable('constelationDatamag.csv', 'csv', 'header'); 
   //camera:
