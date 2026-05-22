@@ -128,9 +128,9 @@ function preload() {
   uranusjpg = loadImage('uranus.jpg');
   neptunejpg = loadImage('neptune.jpg');
   plutojpg = loadImage('pluto.jpg');
-  comet = loadImage('cometNeowise.jpg');
+  //comet = loadImage('cometNeowise.jpg');
   //sky = loadImage('constellations-g.jpg');
-  sky = loadImage('starmap_Mirror2_4k.jpg');
+  //sky = loadImage('starmap_Mirror2_4k.jpg');
   //constelations
   table = loadTable('constelationDatamag.csv', 'csv', 'header'); 
   //camera:
