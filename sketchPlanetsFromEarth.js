@@ -188,12 +188,12 @@ function setup() {
   //ii = -int(419.5*365); //year of 1603: Kepler
   //ii = -int(2434.5*365); //23 August -413 (-412)
 
-  ii = -int(2027.6*365); //ano -5, 6 AC
+  //ii = -int(2027.6*365); //ano -5, 6 AC
   //ii = -int(14.2*365);
    // ii = -30; // 1 mes atrás
   //ii = -365*11; //11 anos antes
   //ii = -105*365    ; //15/07/1916
-  //ii = -4;
+  ii = -4;
   ifim = ii +  11360;  //define ifim !!!
   anguloz = random(0, PI);
   angulox = random(0, PI);
