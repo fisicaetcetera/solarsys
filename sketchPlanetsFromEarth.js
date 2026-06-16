@@ -21,6 +21,7 @@ let ae = 1.000; //same as a, for earth
 let oe = 0.0; //same as o, for earth
 let ie = 0.0; // same as i, for earth
 let earthLong;
+let angleEarth; //angle from 12 noon LT
 let hoje;
 let RAsolhr;
 let DecSoldeg;
@@ -59,6 +60,7 @@ let XSat, YSat, ZSat;
 let XUra, YUra, ZUra;
 let XNep, YNep, ZNep;
 let XPlu, YPlu, ZPlu;
+let raioSun;
 let Xv, Yv, Zv;
 let xStar, yStar,zStar;
 let starName;
@@ -103,13 +105,13 @@ let zcamSlider;
 let rotatexx = 0;
 let rpc;
   let omega = 100;
-  let tetaz;
+  let tetaz = 0;
   //let distancia;
   let escolha = 'Terra';
   let rN;
   let xcom, ycom, zcom = 0; //comet 21f1 coordinates
   let xcomN =0, ycomN=0, zcomN=0; //comet PonsBrooks
-  let deltateta = 0.056;
+  let deltateta = 0.0056;
   let deltaii = 1; //increment in ii: key '-' changes its sign.
   let diaNoite ="dia"; //se estamos olhando para o Sol ou para o lado oposto
   let factorCam = 1;  //fator que da a distancia da camera ao sol
@@ -118,7 +120,7 @@ let rpc;
 function preload() {
   myfont = loadFont('Catallina.otf');
   sunjpg = loadImage('sun.jpg');
-  earthjpg = loadImage('earthcloud.jpg');
+  earthjpg = loadImage('earthmap.jpg');
   marsjpg = loadImage('mars.jpg');
   jupiterjpg = loadImage('jupiter.jpg');
   venusjpg = loadImage('venus.jpg');
@@ -158,7 +160,6 @@ function setup() {
     //button = createButton('Noturno');
     //button.position(2*width/13 + 12, 30);
     //button.mousePressed(Noturno);
-  tetaz = 0;
   twopi = TWO_PI;
   degs = 180 / PI;
   factor = 10 * factor;
@@ -187,12 +188,12 @@ function setup() {
   //ii = -int(419.5*365); //year of 1603: Kepler
   //ii = -int(2434.5*365); //23 August -413 (-412)
 
-  //ii = -int(2027.6*365); //ano -5, 6 AC
+  ii = -int(2027.6*365); //ano -5, 6 AC
   //ii = -int(14.2*365);
    // ii = -30; // 1 mes atrás
   //ii = -365*11; //11 anos antes
   //ii = -105*365    ; //15/07/1916
-  ii = -4;
+  //ii = -4;
   ifim = ii +  11360;  //define ifim !!!
   anguloz = random(0, PI);
   angulox = random(0, PI);
@@ -210,11 +211,12 @@ function setup() {
   } //setup
 
   function draw(){
-     rotateZ(tetaz);
+    // rotateZ(tetaz);
   background(0);
+  frameRate(1);
   //rotateX(-PI/2);
   //console.log(escolha);
-  frameRate(frSlider.value());
+  //frameRate(frSlider.value());
   //fill(111);
   //textFont(myfont, 20 );
   //text('bonelli-2022',-width/2+20,-height/2+20,0);
@@ -235,7 +237,7 @@ function setup() {
    strokeWeight(4);
    stroke(100, 100, 240);
    //noStroke();
-   rotateX(PI/2 + 0.41);  //gira a esfera
+   rotateX(PI/2 + 0.41);  //gira a esfera celeste
    //texture(sky);
    sphere(4100,24,18);
    pop();
@@ -294,7 +296,7 @@ function setup() {
    console.log('ii , ifim' + ii, ifim);
 
     print = false;
-    d = d0 + ii/24; // aqui
+    d = d0 + ii; // aqui
     console.log("dia, antes diaehoraf =" + d, ii); 
     //calcula data
      diaEHoraf();//gera diaEHora e diaEHora1
@@ -303,15 +305,13 @@ function setup() {
   textFont(myfont, 15 );
   //atenção-corrigir fontsize devido a zoom da cam
   push();
-  //if(distancia < 1500){
-  //rotateZ(PI/2); =
-  alfaE = atan2(Ye, Xe);
-  console.log('xe, ye, alfae = ', Xe, Ye, alfaE);
+  // Dia e hora
+  translate(2.5*raioSun,0,0)  //sol
   rotateX(-PI/2);
-  rotateY(alfaE);
-  text(diaEHora1 + '\n' + diaEHora,-10,-25);
-  //rotateY(-PI/2);
-  //text(diaEHora1 + '\n' + diaEHora,-20,-25);
+  text(diaEHora1,-10,-25);
+  translate(0,-6.5*raioSun,0);
+  rotateY(PI/2);
+  text(diaEHora1,-20,-25);
   //}
      
   pop();
@@ -424,23 +424,23 @@ function setup() {
    let posy = 0;
    let posz = 0;
    //////
-   if (mouseIsPressed === true) {
-    if (mouseButton === LEFT) {
-      tetaz = tetaz + deltateta;
-      if(tetaz>PI || tetaz<0){
-         deltateta = -deltateta;
-         tetaz += deltateta;
-      }
-    }
+   //if (mouseIsPressed === true) {
+    //if (mouseButton === LEFT) {
+     // tetaz = tetaz + deltateta;
+     // if(tetaz>PI || tetaz<0){
+     //    deltateta = -deltateta;
+     //    tetaz += deltateta;
+      //}
+    //}
     //if (mouseButton === RIGHT) {
     //  tetaz = tetaz + 0.028;
     //  return false;
     // did not work in Google
     //}
-    if (mouseButton === CENTER) {
-      tetaz = 0;
-   }
-   }
+    //if (mouseButton === CENTER) {
+    //  tetaz = 0;
+  // }
+  // }
    /////
    //if(escolha == 'Sol'){
    //posx= ***;
@@ -448,7 +448,7 @@ function setup() {
    //posz= zcomN;
    //raioSun = raioTerra/10;
    //}
-   else if(escolha == 'Terra'){
+   if(escolha == 'Terra'){
    posx=posxe + 1.3 * raioTerra;
    posy=posye + 1.3 * raioTerra;
    posz=0;
@@ -640,13 +640,17 @@ else if(escolha == 'Marte'){
     //fill(0,0,100, 100);
     push()
     translate(posxe, posye, 0);
-    //rotateX(PI / 2);//TEM QUE VIRAR  e depois desvirar
-    //para desenhar a lua
-    texture(earthjpg);
-    
+    rotateX(- PI / 2);  // para ajustar o mapa da Terra
+    //rotateY(angleEarth);
+    rotateY(frameCount/10);//rotação artificial
+    texture(earthjpg);   
     sphere(raioTerra);
+    rotateX(PI/2);  //para cancelar a rotação da figura da Terra
+ 
     translate(posxmoon , posymoon , poszmoon);
-    console.log('moonxyz' + posxmoon, posymoon,poszmoon);
+    //console.log('moonxyz' + posxmoon, posymoon,poszmoon);
+    console.log('angleEarth : ', angleEarth);
+       rotateY(-frameCount/10);//rotação artificial
     texture(moon);
     sphere(raioTerra*0.25);//aqui consertar isso!!!
     pop();
@@ -670,9 +674,9 @@ else if(escolha == 'Marte'){
 //
 //************** FUNCTIONS ****************
 
-function mouseDragged() {
-  tetaz = tetaz + 0.39;
-  }
+//function mouseDragged() {
+  //tetaz = tetaz + 0.39;
+ //}
 
 function mouseWheel(event) {
   factorCam = factorCam + event.delta/600;
@@ -2097,7 +2101,7 @@ function Moon() {
   hora = now.getHours();
   minutos = now.getMinutes();
   segundos = now.getSeconds();
-      
+    //angleEarth = hora*PI/12;    
       diaEHora1 = dia.toString() + '/';
       diaEHora1 += mes.toString() + '/';
       diaEHora1 += ano.toString();
@@ -2289,12 +2293,12 @@ function cometPonsBrooks2024 () {
   y0 =Yhal1986;
   z0 =Zhal1986;
   //reduce time rate if r < 2 AU
-  sign = abs(deltaii)/deltaii;
-  if(r<10){
-    deltaii = 1 * sign;
-    }  else {
-      deltaii = 1 * sign;
-      }
+  //sign = abs(deltaii)/deltaii;
+  //if(r<10){
+   // deltaii = 1 * sign;
+    //}  else {
+     // deltaii = 1 * sign;
+     // }
   //aqui
   
   
