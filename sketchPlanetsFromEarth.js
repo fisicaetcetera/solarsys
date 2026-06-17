@@ -64,7 +64,6 @@ let raioSun;
 let Xv, Yv, Zv;
 let xStar, yStar,zStar;
 let starName;
-let xpeixe, ypeixe, zpeixe;
 let deltax=0, deltay=0;
 // ecliptic c//
 //moon geocentric coordinates
@@ -185,7 +184,7 @@ function setup() {
   //console.log('agora ',now);
   //console.log('now = ', now.getHours(), now.getMinutes(), now.getSeconds());
   //
-  //ii = -int(419.5*365); //year of 1603: Kepler
+  ii = -int(424*365); //year of 1603: Kepler
   //ii = -int(2434.5*365); //23 August -413 (-412)
 
   //ii = -int(2027.6*365); //ano -5, 6 AC
@@ -193,7 +192,7 @@ function setup() {
    // ii = -30; // 1 mes atrás
   //ii = -365*11; //11 anos antes
   //ii = -105*365    ; //15/07/1916
-  ii = -4;
+  //ii = -4;
   ifim = ii +  11360;  //define ifim !!!
   anguloz = random(0, PI);
   angulox = random(0, PI);
@@ -213,7 +212,7 @@ function setup() {
   function draw(){
     // rotateZ(tetaz);
   background(0);
-  frameRate(1);
+  frameRate(5);
   //rotateX(-PI/2);
   //console.log(escolha);
   //frameRate(frSlider.value());
@@ -263,34 +262,29 @@ function setup() {
      //console.log(xStar,yStar,zStar);
      //
      push();
-     //translate(0,0,0)
      rotateX(0.41); // 23.49 degrees (inclination of ecliptic)
      translate(xStar,-yStar, zStar);
-     //if(starName == "halley"){
-     //fill('blue');
-     //rotateY(PI);
-     //rotateX(PI);
-     //stroke(0,111,255);
-     //cone(5,80 );
-     if(starName == "GamaPiscium"){
-        xpeixe = xStar;
-        ypeixe = yStar;
-        zpeixe = zStar;
-        console.log('coordenada de Gama Piscium', xpeixe, -ypeixe, zpeixe);
+//constelation names here
+     if(starName == "epsilonPiscium"){
         fill('white');
         sphere(2*radiusStar);
-        text('Peixe', 120, 120);
-        
-     }
-     else{     
+        rotateX(-PI/2);
+        rotateY(-PI/2);
+        textFont(myfont, 100 );
+        text('P e i x e', -300, 120);       
+     } else if(starName == "alfaTauri"){
+        fill('red');
+        sphere(2*radiusStar);
+        rotateX(-PI/2);
+        fill('white');
+          textFont(myfont, 120 );
+        text('T o u r o', 555, -200);  
+     }  
      fill('white');
      sphere(radiusStar);
-     }
      pop();
+     } //do loop rr for stars     pop();
              
-     }
-
-
      ii += deltaii; // default = 1 dia
    if (ii < ifim) { //till some future time
    console.log('ii , ifim' + ii, ifim);
@@ -533,11 +527,11 @@ else if(escolha == 'Marte'){
     //rm = 10;
     sphere(rm);
     rotateZ(frameCount/50);
-
-    if (print) {
-      //text('Marte', posxms + 15, posyms - 3);
-      ////console.log('Mars: ', Xms, Yms, Zms);
-    }
+    rotateY(PI/2);    
+    rotateX(PI);
+    fill(125,125,125,255);
+    textFont(myfont, 10 );
+    text('Marte', 10, 20);
     pop();
     //
     //draws Jupiter
@@ -547,6 +541,11 @@ else if(escolha == 'Marte'){
     rotateX(PI / 2);
     rotateY(-frameCount/30);
     sphere(raioJupiter);
+        rotateX(PI);
+    //rotateY(PI);
+    fill(125,125,125,255);
+    textFont(myfont, 40 );
+    text('Júpiter', 30, 60);
     //sphere(raioTerra);
     //rotateX(-PI/2);
     //rotateZ(frameCount/3);
@@ -559,17 +558,31 @@ else if(escolha == 'Marte'){
     push();
     texture(Saturnjpg);
     translate(posxSat, posySat, poszSat);
-    rotateX(PI / 2);
+    rotateX(PI / 2 + 0.5);
     sphere(raioSaturn);
+    rotateX(PI/2);
+    tint = 1.5*raioSaturn;
+    tout = tint + 17;
     //sphere(raioTerra);
-    rotateZ(1.0);
+    //rotateZ(1.0);
     fill('gray'),
-    torus(tout,tint);
+    torus(tint,5);
     fill('white');
-    torus(1.3*tout, 1.3*tint);
+    torus(tout, 5);
+    fill('gray');
+    torus(tout+7,5);
+    rotateX(PI/2);
+    rotateY(PI);
+    fill(125,125,125,255);
+    textFont(myfont, 80 );
+    text('Saturno', 130, 160);
 
     pop();
-    //
+    // torus, versão antiga
+    //      fill('gray'),
+    //torus(re+25,5);
+    //fill('white');
+    //torus(re+50, 5);
     
         //
     //draws Uranus
@@ -615,6 +628,11 @@ else if(escolha == 'Marte'){
     translate(posxv, posyv, poszv);
     rotateX(PI / 2);
     sphere(raioVenus);
+        rotateX(PI);
+    //rotateY(PI);
+    fill(125,125,125,255);
+    textFont(myfont, 10 );
+    text('Venus', 10, 20);
     pop();
     
     //draw comethal1986
@@ -666,7 +684,7 @@ else if(escolha == 'Marte'){
     //if(distancia<1500){
     //rotateX(PI/2);
     textFont(myfont, 10 );
-  text('E. Bonelli',0,0,0);
+  text('E. Bonelli',0,0);
   //noLoop();
   }
       
@@ -2372,4 +2390,4 @@ function Halley() {
   } //end of function Halley 
   //the end
   //
-  
+  // BACKUP EM 15062026.  Adding planet and constelation names on 15062026.
