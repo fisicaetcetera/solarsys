@@ -10,7 +10,7 @@
 let miliseconds = 24*3600000;  //miliseconds in a day
 let timestamp ;  // miliseconds since 
 let stampj2013; ///miliseconds since reference in 2013
-let ii; // number of days before of after today
+let ii, ii0; // number of days before of after given date
 let ifim ; //when simulation ends
 let alfaE, cosalfaE; //for bilboarding date
 let ne = 0.985611; //same as n, for earth
@@ -101,11 +101,12 @@ let zcamSlider;
   let Xhal1986, Yhal1986, Zhal1986;//shrinked
   let xhal1986, yhal1986, zhal1986;//real
   let xHall, yHall, zHall;
-let rotatexx = 0;
-let rpc;
-  let omega = 100;
-  let tetaz = 0;
-  //let distancia;
+  let rotatexx = 0;
+  let rpc;
+  let omega = 0;
+  let tetaz = 0;  //angulo zonal da pos da terra
+  let costetaz, sintetaz;
+  let distancia;
   let escolha = 'Terra';
   let rN;
   let xcom, ycom, zcom = 0; //comet 21f1 coordinates
@@ -150,22 +151,15 @@ function setup() {
   assinatura.text('Bonelli-2022', 190, 85);
   //**
   hoje = new Date().getTime()/1000/3600/24;
-  console.log('Julian date for today  =', hoje);  
-  //distancia = 500;
-  //Botões
-    //button = createButton('Diurno');
-    //button.position(2*width/13 + 12, 10);
-    //button.mousePressed(Diurno)
-    //button = createButton('Noturno');
-    //button.position(2*width/13 + 12, 30);
-    //button.mousePressed(Noturno);
+  //console.log('Julian date for today  =', hoje);  
+
   twopi = TWO_PI;
   degs = 180 / PI;
   factor = 10 * factor;
   rads = 1 / degs;
   ec_rads = ec ;
   //
-  createCanvas(1366, 768, WEBGL);
+  createCanvas(windowWidth, windowHeight, WEBGL);
 
   d0 = numeroDeDias();
 
@@ -192,6 +186,7 @@ function setup() {
   //ii = -365*11; //11 anos antes
   //ii = -105*365    ; //15/07/1916
   ii = -7;
+  ii0 = ii;
   ifim = ii +  11360;  //define ifim !!!
   anguloz = random(0, PI);
   angulox = random(0, PI);
@@ -209,15 +204,8 @@ function setup() {
   } //setup
 
   function draw(){
-    // rotateZ(tetaz);
   background(0);
-  frameRate(5);
-  //rotateX(-PI/2);
-  //console.log(escolha);
-  //frameRate(frSlider.value());
-  //fill(111);
-  //textFont(myfont, 20 );
-  //text('bonelli-2022',-width/2+20,-height/2+20,0);
+  frameRate(5)
   
         //sunlight
    if(escolha == 'luzSolar'){
@@ -266,31 +254,41 @@ function setup() {
 //constelation names here
      if(starName == "epsilonPiscium"){
         fill('white');
-        sphere(2*radiusStar);
+        sphere(2.5*radiusStar);
         rotateX(-PI/2);
         rotateY(-PI/2);
         textFont(myfont, 100 );
         text('P e i x e', -300, 120);       
      } else if(starName == "alfaTauri"){
         fill('red');
-        sphere(2*radiusStar);
+        sphere(2.5*radiusStar);
         rotateX(-PI/2);
         fill('white');
           textFont(myfont, 120 );
         text('T o u r o', 555, -200);  
-     }  
+     } else if(starName == "alfaAurigae"){
+        fill('white');
+        sphere(2.5*radiusStar);
+        rotateX(-PI/2);
+        //rotateY(-PI/2);
+        textFont(myfont, 120 );
+        text('Aurigae', -550, 440); 
+     }else {
      fill('white');
      sphere(radiusStar);
+     }
      pop();
      } //do loop rr for stars     pop();
              
+     if(animação){
      ii += deltaii; // default = 1 dia
+     }      
    if (ii < ifim) { //till some future time
-   console.log('ii , ifim' + ii, ifim);
+   //console.log('ii , ifim' + ii, ifim);
 
     print = false;
     d = d0 + ii; // aqui
-    console.log("dia, antes diaehoraf =" + d, ii); 
+    //console.log("dia, antes diaehoraf =" + d, ii); 
     //calcula data
      diaEHoraf();//gera diaEHora e diaEHora1
   // Escreve a data
@@ -392,55 +390,6 @@ function setup() {
     posxPlu = ox + factor/3 * XPlu; //x coordinate of Pluto
     posyPlu = oy - factor/3 * YPlu; //y coordinate of Pluto
     poszPlu = oz - factor/3 * ZPlu; //z coordinate of Pluto
-    //
-
-   zcam = zcamSlider.value();
-   //console.log('zcam = ' + zcam);
-   if(deltax == 0){
-      posxcam = posxe;
-      posycam = posye;
-      deltax = (posxms - posxe)/300;
-      deltay = (posyms - posye)/300;
-   }else{
-      den = min(frameCount, 300-5);
-      deltax = (posxms - posxcam)/(300-den);
-      deltay = (posyms - posycam)/(300-den);
-   }
-   //distancia muda pela mousewheel
-   //tetaz = mouseY/200;
-   //Changes in tetaz in mouseDragged
-   omega = 0;
-   if(mouseX > width - 50){
-      omega = omega + mouseY/200;
-   }
-   let posx = 0;
-   let posy = 0;
-   let posz = 0;
-   //////
-   //if (mouseIsPressed === true) {
-    //if (mouseButton === LEFT) {
-     // tetaz = tetaz + deltateta;
-     // if(tetaz>PI || tetaz<0){
-     //    deltateta = -deltateta;
-     //    tetaz += deltateta;
-      //}
-    //}
-    //if (mouseButton === RIGHT) {
-    //  tetaz = tetaz + 0.028;
-    //  return false;
-    // did not work in Google
-    //}
-    //if (mouseButton === CENTER) {
-    //  tetaz = 0;
-  // }
-  // }
-   /////
-   //if(escolha == 'Sol'){
-   //posx= ***;
-   //posy= ycomN;
-   //posz= zcomN;
-   //raioSun = raioTerra/10;
-   //}
    if(escolha == 'Terra'){
    posx=posxe + 1.3 * raioTerra;
    posy=posye + 1.3 * raioTerra;
@@ -460,18 +409,17 @@ else if(escolha == 'Marte'){
       deltaii *= -1;
       escolha = null;
    }
-   //posx = posxe+raioTerra*2;
-   //posy = posye + raioTerra*2;
-   //posz = 0.;
-  // if(diaNoite == "dia"){
-  camera(posxe*factorCam, posye*factorCam, 0, 0, 0, 0,0,0,-1);
-  // } else {
-  //      posxinf = 2*posxe;
-  //      posyinf = 2*posye;
-   //     camera(posxe*factorCam, posye*factorCam, 0, posxinf, posyinf,0,0,0,1);//april 8
-   //}
-   //camera(distancia*sin(omega)*sin(tetaz), distancia*cos(omega)*sin(tetaz),distancia*cos(tetaz),posx,posy,posz,0,1,0);
-
+   console.log("tetaz = ", tetaz);
+  if(tetaz == 0){
+     console.log("tetaz = ", tetaz);
+    distancia = sqrt(posxe*posxe + posye*posye)*factorCam; 
+    sintetaz = posye/distancia;//colocar esse let no início aqui aqui
+    costetaz = posxe/distancia;//idem
+    console.log("costetaz = ", costetaz, sintetaz);
+  }
+    console.log("costetaz = ", costetaz, sintetaz);
+  camera(distancia*cos(omega)*costetaz, distancia*cos(omega)*sintetaz,distancia*sin(omega),0,0,0,0,0,-1);
+//console.log('distancia, omega, tetaz = ', distancia, omega, tetaz);
     //sol
     push();
     fill(255, 250,250);
@@ -658,7 +606,6 @@ else if(escolha == 'Marte'){
     push()
     translate(posxe, posye, 0);
     rotateX(- PI / 2);  // para ajustar o mapa da Terra
-    //rotateY(angleEarth);
     rotateY(frameCount/10);//rotação artificial
     texture(earthjpg);   
     sphere(raioTerra);
@@ -666,22 +613,11 @@ else if(escolha == 'Marte'){
  
     translate(posxmoon , posymoon , poszmoon);
     //console.log('moonxyz' + posxmoon, posymoon,poszmoon);
-    console.log('angleEarth : ', angleEarth);
        rotateY(-frameCount/10);//rotação artificial
     texture(moon);
     sphere(raioTerra*0.25);//aqui consertar isso!!!
     pop();
-    //
-    // Stereo-A
-    //rotateZ(PI / 4);
-    //fill(225);
-    //cylinder(5,10);
-  //} if ii < ifim 
-  //else{
-    //jupdat.close();
-    //Satdat.close();
-    //if(distancia<1500){
-    //rotateX(PI/2);
+ 
     textFont(myfont, 10 );
   text('E. Bonelli',0,0);
   //noLoop();
@@ -691,20 +627,22 @@ else if(escolha == 'Marte'){
 //
 //************** FUNCTIONS ****************
 
-//function mouseDragged() {
-  //tetaz = tetaz + 0.39;
- //}
+function mouseDragged() {
+      omega = (mouseY+width/2)/150;//aqui omega é o camera^eclitica.
+      console.log("omega , mouseY =  ", omega, mouseY);
+      
+ }
 
 function mouseWheel(event) {
   factorCam = factorCam + event.delta/600;
   return false;
 }
-function mouseClicked(){
+function doubleClicked(){
   if(animação){
-    noLoop();
+    //noLoop();
     animação =false;
   }else{
-    loop();
+    //loop();
     animação = true; 
   } 
 //
@@ -2199,8 +2137,8 @@ function comet21f1() {
   r = q*(1+w*w)/(1+w*w*f);
   xcom = r * cos(v);
   ycom = r *sin(v);
-  console.log(d, tp);
-  console.log(xcom, ycom,r,v);
+  //console.log(d, tp);
+  //console.log(xcom, ycom,r,v);
   } //end of function comet21f1
   //the end
   //
@@ -2242,11 +2180,11 @@ function cometPonsBrooks2024 () {
   // Funções chamadas pelos botões
   function Diurno(){
      diaNoite = "dia";
-     console.log("dia");
+     //console.log("dia");
   }
   function Noturno(){
      diaNoite = "noite";
-     console.log("noite");
+     //console.log("noite");
   }
   //Halley1986
   function comethal1986() {
@@ -2271,7 +2209,7 @@ function cometPonsBrooks2024 () {
   //L = FNrange(L);
   // Find the eccentric anomaly,
   E = EccAnom(M, e);//returns Ecc 
-  console.log('maximum iteration = ', jjj);
+  //console.log('maximum iteration = ', jjj);
     // distance and true anomaly
   // xv = r* cos(v) , yv = r * sin(v)
   xv = a * (cos(E) - e);
@@ -2279,9 +2217,9 @@ function cometPonsBrooks2024 () {
   v = atan2(yv, xv);
   r = sqrt(xv*xv + yv*yv);
   //7-position in space
-  console.log('Dia e hora = ', diaEHora1 + '  '+ diaEHora);
-  console.log('e, dias, E, r = ' , e, d, E*degs, r); 
-  console.log(' M = ', M*degs);
+  //console.log('Dia e hora = ', diaEHora1 + '  '+ diaEHora);
+  //console.log('e, dias, E, r = ' , e, d, E*degs, r); 
+  //console.log(' M = ', M*degs);
   //
   // Calculate  coordinates X, Y, and Z, for comet: Xhal1986, etc.
   //
@@ -2298,12 +2236,12 @@ function cometPonsBrooks2024 () {
   let deltax = Xhal1986 - x0;
   let deltay = Yhal1986 - y0;
   let deltaz = Zhal1986 - z0;  
-  console.log(' dias,  deltar', d, deltar);
+  //onsole.log(' dias,  deltar', d, deltar);
   let correction = 1/(1-e*cos(E));
   if(deltax > 0.1){
-     console.log(' soluco: dias, deltax, deltay,deltaz : ', d, deltax, deltay, deltaz);
-     console.log ('soluco: dias, E, 1/(1-ecosE) : ' , d, E, correction);
-     console.log('soluco : yv, xv, atan2(yv/xv) ', yv, xv, v);  
+     //console.log(' soluco: dias, deltax, deltay,deltaz : ', d, deltax, deltay, deltaz);
+     //console.log ('soluco: dias, E, 1/(1-ecosE) : ' , d, E, correction);
+     //console.log('soluco : yv, xv, atan2(yv/xv) ', yv, xv, v);  
      }
   r0=r;
   x0 =Xhal1986;
@@ -2326,7 +2264,7 @@ function cometPonsBrooks2024 () {
   Dec_radians = atan2(Zhal1986, sqrt(Xhal1986 * Xhal1986 + Yhal1986 * Yhal1986));
   RAhr = RA_radians*degs/15;
   Decdeg = Dec_radians * degs;
-  console.log('RA Hall 1986 = ', RAhr, ' Dec hal1986 = ', Decdeg);
+  //console.log('RA Hall 1986 = ', RAhr, ' Dec hal1986 = ', Decdeg);
   } //end of function comethal1986
   //
   //E = EccAnom(M, e)
@@ -2343,7 +2281,7 @@ function cometPonsBrooks2024 () {
   while(i++ < 50){
      delta_E = (E - e * sin(E) - M) / (1-e*cos(E));
      E = E - delta_E;
-     console.log(E*degs);
+     //console.log(E*degs);
      if (abs(delta_E) < precisao){
         return E;
      }
@@ -2384,9 +2322,12 @@ function Halley() {
   xHall = rN * (cos(N) * cos(v+w) - sin(N) * sin(v+w) * cos(i));
   yHall = rN * (sin(N) * cos(v+w) + cos(N) * sin(v+w) * cos(i));
   zHall = rN * (sin(v+w) * sin(i));
-  console.log(d, tp);
-  console.log('Halley xyz r v', xHall, yHall, zHall,rN,v);
+  //console.log(d, tp);
+  //console.log('Halley xyz r v', xHall, yHall, zHall,rN,v);
   } //end of function Halley 
+  function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
   //the end
   //
   // BACKUP EM 15062026.  Adding planet and constelation names on 15062026.
