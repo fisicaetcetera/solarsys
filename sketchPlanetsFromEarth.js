@@ -196,7 +196,7 @@ function setup() {
   //ii = -365*11; //11 anos antes
   //ii = -105*365    ; //15/07/1916
   ii = -7;
-  ifim = ii +  365;  //dias até o fimda animação!!!
+  ifim = 3650000;  //dias até o fimda animação!!!
   anguloz = random(0, PI);
   angulox = random(0, PI);
   anguloy = random(0, PI);
