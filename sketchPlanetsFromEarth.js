@@ -1,16 +1,13 @@
-//Previous version works with a cam with fixed rotation.
-//Recent previous version: to make the cam controlable by user.
-//This version: improved camera control
+//This version tries to update images in quarter-of-day
+//jun22-2926
 //===========================
 //   Planetary formulas from Paul Schlyter's page at http://astro.if.ufrgs.br/trigesf/position.html.
-//this one: all planets: sketchPlanetsAll.js
-// tamanhos dos planetas alterados.  Distancia dos planetas distantes alteradas...
-// TIME
-//This one: including one comet:sketchPlanetsMyComet.js
 let miliseconds = 24*3600000;  //miliseconds in a day
 let timestamp ;  // miliseconds since 
 let stampj2013; ///miliseconds since reference in 2013
-let ii, ii0; // number of days before of after given date
+let ano;
+let ii; // number of days before of after given date
+let diasmoon //número de dias desde20130814
 let ifim ; //when simulation ends
 let alfaE, cosalfaE; //for bilboarding date
 let ne = 0.985611; //same as n, for earth
@@ -27,6 +24,7 @@ let RAsolhr;
 let DecSoldeg;
 let RA_hours, Dec_degrees; //all
 let RA_Jup, RA_Mar, RA_Mer, RA_Net;
+let RA_Sat;
 let lat;
 let lon;
 let dlon;
@@ -112,10 +110,12 @@ let zcamSlider;
   let xcom, ycom, zcom = 0; //comet 21f1 coordinates
   let xcomN =0, ycomN=0, zcomN=0; //comet PonsBrooks
   let deltateta = 0.0056;
-  let deltaii = 1; //increment in ii: key '-' changes its sign.
+  let deltaii = 1/24; //increment in ii: key '-' changes its sign. //aqui
   let diaNoite ="dia"; //se estamos olhando para o Sol ou para o lado oposto
   let factorCam = 1;  //fator que da a distancia da camera ao sol
   let animação = true;
+  let dateInput;
+  let displayMessage = "Digite dia, mes e ano.";
 //+++++++
 function preload() {
   myfont = loadFont('Catallina.otf');
@@ -135,13 +135,23 @@ function preload() {
   //sky = loadImage('starmap_Mirror2_4k.jpg');
   //constelations
   table = loadTable('constelationDatamag.csv', 'csv', 'header'); 
-  //camera:
-
 }
-
-//
 //
 function setup() {
+//Pedindo a data
+  dateInput = createInput('');
+  dateInput.position(120, 360);
+  dateInput.size(150, 20);
+  dateInput.style('background-color', 'black')
+  dateInput.style('color', 'white')
+  dateInput.attribute('maxlength', '10');
+  dateInput.attribute('placeholder', 'Data? DD/MM/AAAA');
+  fill(0);
+  textSize(20);
+  text("Data? (DDMMYYYY):", 20, 50); 
+  dateInput.changed(formatAndValidateDate);
+  textSize(18);
+  text(displayMessage, 120, 100);
   //textura para assinatura  
   assinatura = createGraphics(380, 100);
   assinatura.background(255, 100);
@@ -150,8 +160,8 @@ function setup() {
   assinatura.textSize(90);
   assinatura.text('Bonelli-2022', 190, 85);
   //**
-  hoje = new Date().getTime()/1000/3600/24;
-  //console.log('Julian date for today  =', hoje);  
+  hoje = new Date().getTime()/86400000;
+  //console.log('Julian date for today ********* =', hoje);  
 
   twopi = TWO_PI;
   degs = 180 / PI;
@@ -180,34 +190,29 @@ function setup() {
   //
   //ii = -int(424*365); //year of 1603: Kepler
   //ii = -int(2434.5*365); //23 August -413 (-412)
-  //ii = -int(2027.6*365); //ano -5, 6 AC
+  //ii = -int(2035*365); //ano -5, 6 AC //aqui recente
   //ii = -int(14.2*365);
   //ii = -30; // 1 mes atrás
   //ii = -365*11; //11 anos antes
   //ii = -105*365    ; //15/07/1916
   ii = -7;
-  ii0 = ii;
-  ifim = ii +  11360;  //define ifim !!!
+  ifim = ii +  365;  //dias até o fimda animação!!!
   anguloz = random(0, PI);
   angulox = random(0, PI);
   anguloy = random(0, PI);
-  
-  frSlider = createSlider(1, 10, 1);
-  frSlider.position(0,height+2);
-  zcamSlider = createSlider(1000,3000,200,0);//***
-  zcamSlider.position(frSlider.x, frSlider.y+30);
-  
+  //Slider for frameRate  
+  frSlider = createSlider(10, 60, 0);
+  frSlider.position(10,10);
   //create datafile jupiter.txt
   //jupdat = createWriter('jupiter.dat');
-  //Netdat = createWriter('Saturn.dat');
-
-  } //setup
+  //satdat = createWriter('Saturn.dat');
+} //setup
 
   function draw(){
+  console.log('inside draw(),ii = ', ii);
   background(0);
-  frameRate(5)
-  
-        //sunlight
+  frameRate(frSlider.value());
+         //sunlight
    if(escolha == 'luzSolar'){
    pointLight(255,255,105,0,0,0);
    posx=0;
@@ -281,7 +286,7 @@ function setup() {
      } //do loop rr for stars     pop();
              
      if(animação){
-     ii += deltaii; // default = 1 dia
+     ii += deltaii; // default = 1 dia//one hour
      }      
    if (ii < ifim) { //till some future time
    //console.log('ii , ifim' + ii, ifim);
@@ -325,15 +330,18 @@ function setup() {
     //
     jupiter(); //calculates for Jupiter
     RA_Jup = RA_hours;
+    Saturn(); //XSat, etc.
+    RA_Sat = RA_hours;   
+    ConjunçãoJupSat();
     Mars(); //calculates quantities for earth and mars
     //////console.log('Mars ', Xms, Yms, Zms);
     Venus(); // Xv, Yv, Zv
-    Saturn(); //XSat, etc.
+
     Uranus();
     Neptune();
     Pluto();
     Moon();
-    RA_Sat = RA_hours;
+
     Mercury(); //Xmer, etc.
     //comet21f1(); //xcom, ycom
     //cometPonsBrooks2024(); // xcomN, ycomN
@@ -406,7 +414,7 @@ else if(escolha == 'Marte'){
    posz=0;
    }
    else if(escolha == 'inverte'){
-      deltaii *= -1;
+      deltaii *= -1 ;//aqui
       escolha = null;
    }
    console.log("tetaz = ", tetaz);
@@ -420,6 +428,7 @@ else if(escolha == 'Marte'){
     console.log("costetaz = ", costetaz, sintetaz);
   camera(distancia*cos(omega)*costetaz, distancia*cos(omega)*sintetaz,distancia*sin(omega),0,0,0,0,0,-1);
 //console.log('distancia, omega, tetaz = ', distancia, omega, tetaz);
+     //camera(posxe,posye,0,posxj,posyj,0,0,0,-1);//Terra olhando para Jupiter
     //sol
     push();
     fill(255, 250,250);
@@ -563,7 +572,7 @@ else if(escolha == 'Marte'){
         //draws Mercury
     push();
     texture(mercury);
-    translate(posxmer, posymer, 0);
+    translate(posxmer, posymer, poszmer);
     rotateX(PI / 2);
     sphere(raioMercury);
     //specularMaterial(red);
@@ -628,9 +637,10 @@ else if(escolha == 'Marte'){
 //************** FUNCTIONS ****************
 
 function mouseDragged() {
+    if(mouseX>width/2){
       omega = (mouseY+width/2)/150;//aqui omega é o camera^eclitica.
       console.log("omega , mouseY =  ", omega, mouseY);
-      
+     }    
  }
 
 function mouseWheel(event) {
@@ -645,7 +655,7 @@ function doubleClicked(){
     //loop();
     animação = true; 
   } 
-//
+  return false
 }
 function keyTyped() {
   if (key === 'j') {
@@ -1011,30 +1021,25 @@ function numeroDeDiasOutra() {
 //
 //
 function numeroDeDias() {
-
   //calcula numero de dias entre duas datas escolhidas
   // Por enquanto entre 201308160000 e o presente (ou data da previsão)
   //por exemplo, já usei 1603 e funcionou.  Kepler.
   now = new Date();
   timestamp = now.getTime(); //agora
-  //console.log('timeStamp = ', +timestamp)
-  //time for 2013 elements
-  //
   stampj2013 = (new Date('2013-08-16T12:00:00Z')).getTime();
-  let stampj2000 = (new Date('1999-12-31T00:00:00Z')).getTime();
-  //
+  let stampj2000 = (new Date('1999-12-31T00:00:00Z')).getTime();//aqui verificar...
+  //se ainda uso os elementos de 2013 para a Lua. aqui
   //////console.log('stampj2013 = ', stampj2013);
   // epoca, em milisegundos
-  let epocaMoon = (timestamp - stampj2000) / 1000;
+  let epocaMoon = (timestamp - stampj2000) / 1000;//aqui : parece que troquei epoca e    
+  //epocamoon para tudo!  Verificar!  aqui
   let epoca = (timestamp - stampj2013) / 1000;
   //console.log('epoca = ' + epoca);
   let numdias = epoca / 86400;
-  //console.log(' numdias =  ' + numdias);
- 
+  diasmoon = epocaMoon/86400;
+  //console.log(' numdias =  ' + numdias); 
   return numdias;
 } //end function numeroDeDias
-//
-//
 //
 //   the function below returns an angle in the range
 //   0 to two pi
@@ -1993,7 +1998,7 @@ function Pluto() {
   //
   //////console.log('Mercury: ', RA_hours, Dec_degrees, distance);
   //  
-} //end function Mercury//
+} //end function Mercury
 //======function Moon =======
 function Moon() {
 
@@ -2247,16 +2252,6 @@ function cometPonsBrooks2024 () {
   x0 =Xhal1986;
   y0 =Yhal1986;
   z0 =Zhal1986;
-  //reduce time rate if r < 2 AU
-  //sign = abs(deltaii)/deltaii;
-  //if(r<10){
-   // deltaii = 1 * sign;
-    //}  else {
-     // deltaii = 1 * sign;
-     // }
-  //aqui
-  
-  
   //console.log('Xhall,etc  ', Xhal1986, Yhal1986, Zhal1986);
   //RRh = sqrt(Yhal1986*Yhal1986 + Xhal1986*Xhal1986 +Zhal1986*Zhal1986);
   //elevEclithal86 = asin(Zhal1986/RR) * degs;
@@ -2328,6 +2323,55 @@ function Halley() {
   function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
-  //the end
+  function ConjunçãoJupSat(){
+      if(abs(RA_Jup - RA_Sat)< 0.011){
+         //animação = false;        
+      }
+      console.log("Conjunção  ", RA_Sat, RA_Jup);
+  }   
+//
+function formatAndValidateDate() {
+   console.log('inside validation function');
+  // Remove all non-numeric characters
+  let rawNumbers = dateInput.value().replace(/\D/g, '');
+  // Apply visual mask: DD/MM/YYYY
+  let formatted = '';
+  if (rawNumbers.length > 0) {
+    formatted += rawNumbers.substring(0, 2);
+  }
+  if (rawNumbers.length > 2) {
+    formatted += '/' + rawNumbers.substring(2, 4);
+  }
+  if (rawNumbers.length > 4) {
+    formatted += '/' + rawNumbers.substring(4, 8);
+  }
+  // Update the input field text with the slashes included
+  dateInput.value(formatted);
+  // Validate only when the full 8 digits are provided
+  if (rawNumbers.length === 8) {
+    let dddStr = rawNumbers.substring(0, 2);
+    let mmmStr = rawNumbers.substring(2, 4);
+    let yyyStr = rawNumbers.substring(4, 8);
+  console.log("rawNumbers, data: ", rawNumbers, dddStr +mmmStr +yyyStr);//aqui
+        //get Julian date for this date
+        //from/to this date:
+        dataInicial = `${yyyStr}-${mmmStr}-${dddStr}T00:00:00Z`;
+        console.log('dataInicial = ', dataInicial);
+let parsedDate = new Date(dataInicial);
+  
+  if (!isNaN(parsedDate)) { // Verifica se a data é válida
+    initialDate = parsedDate.getTime() / 86400000;
+    ii = initialDate - hoje - 10; // 10 dias de folga para ver o evento chegando
+    console.log('ii, diasmoon dentro = ', ii, diasmoon);
+  } else {
+    console.log("Erro: Data inválida gerada.");
+  }
+
+  } else {
+  displayMessage = "Digitando...";
+  }
+}  //end function formatAndValidate
+      
+  //the FINAL end
   //
   // BACKUP EM 15062026.  Adding planet and constelation names on 15062026.
