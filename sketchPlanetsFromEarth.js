@@ -140,14 +140,14 @@ function preload() {
 function setup() {
 //Pedindo a data
   dateInput = createInput('');
-  dateInput.position(120, 360);
+  dateInput.position(45, 45);
   dateInput.size(150, 20);
-  dateInput.style('background-color', 'black')
+  dateInput.style('background-color', '#00000000')
   dateInput.style('color', 'white')
   dateInput.attribute('maxlength', '10');
   dateInput.attribute('placeholder', 'Data? DD/MM/AAAA');
   fill(0);
-  textSize(20);
+  textSize(10);
   text("Data? (DDMMYYYY):", 20, 50); 
   dateInput.changed(formatAndValidateDate);
   textSize(18);
@@ -640,7 +640,8 @@ function mouseDragged() {
     if(mouseX>width/2){
       omega = (mouseY+width/2)/150;//aqui omega é o camera^eclitica.
       console.log("omega , mouseY =  ", omega, mouseY);
-     }    
+     }  
+     return false;  
  }
 
 function mouseWheel(event) {
